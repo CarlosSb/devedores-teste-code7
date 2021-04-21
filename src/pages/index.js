@@ -1,21 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
-import { MdSearch, MdDelete, MdArrowBack, MdEdit } from "react-icons/md";
-import { BsArrowRight } from "react-icons/bs";
+import useSWR from "swr";
+import { MdArrowBack } from "react-icons/md";
 
 import Modal from "../components/Modal";
+import ClientItem from "../components/ClientItem";
+import Search from "../components/Search";
+import ListDebts from "../components/ListDebts";
+import useDebt from "../hooks/useDebt";
+import apiUser from "../services/apiUser";
 
-export default function Home() {
-  const [isOpenDebt, setOpenDebt] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
+const fetcher = (url) => apiUser.get(url).then((res) => res.data);
 
-  function handleOpenModal() {
-    setIsOpenModal(!isOpenModal);
+function Home(props) {
+  const { handleSelectUser, handleToggleModal, selectUser } = useDebt();
+
+  const { data, error } = useSWR("users", fetcher, {
+    initialData: props.users,
+  });
+
+  const [buscar, setBuscar] = useState("");
+  const [users, setUsers] = useState(data);
+  //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
+  useEffect(() => {
+    const resultUser = data.filter(
+      (us) => us.name.toLowerCase().indexOf(buscar.toLowerCase()) > -1
+    );
+    setUsers(resultUser);
+  }, [buscar]);
+
+  function isEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
+
+  if (error) return <div>Falha no carregamento</div>;
+  if (!data) return <div>aguarde...</div>;
 
   return (
     <>
-      <div className="container mx-auto py-2 h-full">
+      <div className="container mx-auto p-2 h-full">
         <Head>
           <title>Devedores</title>
           <link rel="icon" href="/favicon.ico" />
@@ -24,7 +47,7 @@ export default function Home() {
         <main className="max-w-5xl mx-auto flex flex-col h-full">
           <div className="pb-1 pt-6">
             <button
-              onClick={handleOpenModal}
+              onClick={handleToggleModal}
               type="button"
               className="btn btn-primary"
             >
@@ -32,180 +55,80 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="flex gap-2 my-2 ">
-            <div className="w-1/3 h-100 pb-10">
+          <div className="flex gap-2 my-2 relative">
+            <div className="w-full md:w-1/3 md:h-100 pb-10">
               <h2 className="text-sm text-gray-500 my-3">CLIENTES</h2>
 
-              <form className="flex my-2 mr-1">
-                <input
-                  type="text"
-                  placeholder="Buscar Cliente"
-                  className="w-full py-2 px-3 border border-purple-600 focus:border-purple-800 rounded-l-md focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="text-white bg-purple-700 px-3 py-2 rounded-r-md focus:outline-none focus:bg-purple-800 hover:bg-purple-800"
-                >
-                  <MdSearch />
-                </button>
-              </form>
+              <Search value={buscar} setValue={setBuscar} />
 
               <div className="flex flex-col gap-2 mt-1 pr-2 h-full overflow-y-auto">
                 {/** lista de Clientes */}
-                <button
-                  type="button"
-                  className="text-left p-4 bg-white rounded shadow-md focus:outline-none focus:bg-gray-50 hover:opacity-80"
-                >
-                  <p className="text-lg text-gray-700 font-medium">
-                    Antonio Carlos Martins
-                  </p>
-                  <p className="text-xs text-gray-400 font-light">Usuário</p>
-                </button>
 
-                <button
-                  type="button"
-                  className="text-left p-4 bg-white rounded shadow-md focus:outline-none focus:bg-gray-50 hover:opacity-80"
-                >
-                  <p className="text-lg text-gray-700 font-medium">
-                    Antonio Carlos Martins
-                  </p>
-                  <p className="text-xs text-gray-400 font-light">Usuário</p>
-                </button>
+                {users.map((cliente) => (
+                  <ClientItem data={cliente} />
+                ))}
 
-                <button
-                  type="button"
-                  className="text-left p-4 bg-white rounded shadow-md focus:outline-none focus:bg-gray-50 hover:opacity-80"
-                >
-                  <p className="text-lg text-gray-700 font-medium">
-                    Antonio Carlos Martins
-                  </p>
-                  <p className="text-xs text-gray-400 font-light">Usuário</p>
-                </button>
+                {users.length === 0 && (
+                  <div className="h-full flex items-center justify-center">
+                    <p className="max-w-sm text-center text-xl">
+                      Cliente não Encontrado
+                    </p>
+                  </div>
+                )}
 
                 {/** lista de Clientes */}
               </div>
             </div>
-            <div className="w-2/3">
+
+            <div className="w-full hidden md:block md:w-2/3">
               <h2 className="text-sm text-gray-500 my-3">DIVIDAS</h2>
-              <div className="bg-white rounded shadow-md p-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl text-gray-800">
-                    Antonio Carlos Martins
-                  </h2>
-                  <button
-                    onClick={handleOpenModal}
-                    type="button"
-                    className="text-purple-700 hover:text-purple-600 focus:text-purple-600 focus:outline-none"
-                  >
-                    + Divida ao Cliente
-                  </button>
-                </div>
-                <div className="h-96 relative mt-5 mb-4 ">
-                  <div className="flex flex-col h-full overflow-y-auto m-1">
-                    {/**lista de Dividas do Cliente */}
-
-                    <button
-                      onClick={() => setOpenDebt(true)}
-                      type="button"
-                      className="flex items-center justify-start gap-2 text-left p-3 rounded border-b border-gray-300 focus:outline-none focus:bg-gray-50 hover:bg-gray-50 hover:opacity-80"
-                    >
-                      <div className="w-full">
-                        <p className="text-lg text-gray-700 font-medium">
-                          Descrição da divida de Antonio Carlos ...
-                        </p>
-                        <p className="text-xs text-gray-400">19/04/2021</p>
-                      </div>
-
-                      <p className="text-lg p-3">
-                        R$<span className="text-blue-700">500,00</span>
-                      </p>
-
-                      <BsArrowRight className="text-gray-800 text-4xl mx-4" />
-                    </button>
-
-                    <button
-                      type="button"
-                      className="flex items-center justify-start gap-2 text-left p-3 rounded border-b border-gray-300 focus:outline-none focus:bg-gray-50 hover:bg-gray-50 hover:opacity-80"
-                    >
-                      <div className="w-full">
-                        <p className="text-lg text-gray-700 font-medium">
-                          Descrição da divida de Antonio Carlos ...
-                        </p>
-                        <p className="text-xs text-gray-400">19/04/2021</p>
-                      </div>
-
-                      <p className="text-lg p-3">
-                        R$<span className="text-blue-700">500,00</span>
-                      </p>
-
-                      <BsArrowRight className="text-gray-800 text-4xl mx-4" />
-                    </button>
-
-                    {/**lista de Dividas do Cliente */}
+              <div className="bg-white rounded shadow-md p-4 h-full">
+                {(!isEmpty(selectUser) && <ListDebts />) || (
+                  <div className="h-full flex items-center justify-center">
+                    <p className="max-w-sm text-center text-xl">
+                      Clique em um cliente para visualizar suas informações de
+                      combrança
+                    </p>
                   </div>
-
-                  {isOpenDebt && (
-                    <div className="absolute inset-0 bg-gray-50 rounded-md shadow-md">
-                      <div className="flex items justify-between text-gray-800 text-xl p-3">
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => setOpenDebt(false)}
-                            type="button"
-                            className="focus:outline-none p-2 rounded-full hover:bg-gray-100"
-                          >
-                            <MdArrowBack />
-                          </button>
-                          <h2>Detalhes Divida</h2>
-                        </div>
-
-                        <button
-                          type="button"
-                          className=" focus:outline-none hover:bg-opacity-80 p-2 rounded-full text-red-700 hover:bg-gray-100"
-                        >
-                          <MdDelete />
-                        </button>
-                      </div>
-
-                      <div className="px-4 text-gray-800">
-                        <button
-                          type="button"
-                          className="flex items-center gap-1 text-purple-700 hover:text-purple-600 focus:text-purple-600 focus:outline-none"
-                        >
-                          <MdEdit /> EDITAR
-                        </button>
-
-                        <div className="my-5">
-                          <h2 className="text-sm text-gray-500 my-3">
-                            DSCRIÇÃO
-                          </h2>
-                          <p>
-                            Amet ullamco commodo ad ex ea exercitation. Anim qui
-                            non ullamco nisi dolor do ex non ad ut ea. Et et ex
-                            sunt tempor.
-                          </p>
-                        </div>
-
-                        <div className="my-5">
-                          <h2 className="text-sm text-gray-500 my-3">VALOR</h2>
-                          <p className="text-2xl">R$ 500,00</p>
-                        </div>
-
-                        <div className="my-5">
-                          <h2 className="text-sm text-gray-500 my-3">
-                            DATA DASTRO
-                          </h2>
-                          <p>R$ 19/04/2021</p>
-                        </div>
-                      </div>
+                )}
+              </div>
+            </div>
+            {!isEmpty(selectUser) && (
+              <div className=" fixed w-full inset-0 bg-gray-100 md:hidden">
+                <div className="flex items-center gap-2 mx-1">
+                  <button
+                    onClick={() => handleSelectUser({})}
+                    type="button"
+                    className="focus:outline-none p-3 rounded-full hover:bg-gray-100 text-xl"
+                  >
+                    <MdArrowBack />
+                  </button>
+                  <h2 className="text-sm text-gray-500 my-3">DIVIDAS</h2>
+                </div>
+                <div className="bg-white rounded shadow-md p-4 h-full">
+                  {(!isEmpty(selectUser) && <ListDebts />) || (
+                    <div className="h-full flex items-center justify-center">
+                      <p className="max-w-sm text-center text-xl">
+                        Clique em um cliente para visualizar suas informações de
+                        combrança
+                      </p>
                     </div>
                   )}
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
       </div>
-      <Modal open={isOpenModal} setOpen={setIsOpenModal} />
+      <Modal users={data} />
     </>
   );
 }
+
+export async function getStaticProps() {
+  const users = await fetcher("users");
+
+  return { props: { users } };
+}
+
+export default Home;

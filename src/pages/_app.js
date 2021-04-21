@@ -1,7 +1,12 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import { DebtProvider } from "../contexts/DebtsContext";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <DebtProvider>
+      <Component {...pageProps} />
+    </DebtProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;

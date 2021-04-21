@@ -1,21 +1,25 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { AiOutlineWarning } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 
-export default function Modal({ open = false, setOpen = () => {} }) {
+import useDebt from "../hooks/useDebt";
+import apiDebt from "../services/apiDebt";
+
+function Modal({ users = [] }) {
+  const { selectUser, selectDebt, isOpenModal, handleToggleModal } = useDebt();
+
   const cancelButtonRef = useRef();
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={isOpenModal} as={Fragment}>
       <Dialog
         as="div"
         static
         className="fixed z-10 inset-0 overflow-y-auto"
         initialFocus={cancelButtonRef}
-        open={open}
-        onClose={setOpen}
+        open={isOpenModal}
+        onClose={handleToggleModal}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -52,7 +56,7 @@ export default function Modal({ open = false, setOpen = () => {} }) {
                 <button
                   type="button"
                   className=" rounded-full p-2 hover:bg-gray-50 focus:outline-none"
-                  onClick={() => setOpen(false)}
+                  onClick={handleToggleModal}
                 >
                   <MdClose />
                 </button>
@@ -63,21 +67,27 @@ export default function Modal({ open = false, setOpen = () => {} }) {
                     <label className="text-sm text-gray-500 my-3">
                       CLIENTE
                     </label>
-                    <div class="relative inline-block w-full text-gray-800">
+                    <div className="relative inline-block w-full text-gray-800">
                       <select
-                        class="w-full h-10 pl-3 pr-6 text-base placeholder-gray-500 bg-white border rounded-lg appearance-none focus:border-purple-700 focus:outline-none"
+                        className="w-full h-10 pl-3 pr-6 text-base placeholder-gray-500 bg-white border rounded-lg appearance-none focus:border-purple-700 focus:outline-none"
                         placeholder="Regular input"
                       >
-                        <option>A regular sized select input</option>
-                        <option>Another option</option>
-                        <option>And one more</option>
+                        {users.map((us) => (
+                          <option value={us.id}>{us.name}</option>
+                        ))}
+                        {users.length === 0 && (
+                          <option>Usuários não encontradados</option>
+                        )}
                       </select>
-                      <div class="bg-purple-700 rounded-r-lg text-white absolute inset-y-0 right-0 flex items-center px-3">
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                      <div className=" rounded-r-lg text-purple-800 absolute right-2 top-2 flex items-center ">
+                        <svg
+                          className="w-5 h-5 fill-current"
+                          viewBox="0 0 20 20"
+                        >
                           <path
                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
-                            fill-rule="evenodd"
+                            clipRule="evenodd"
+                            fillRule="evenodd"
                           ></path>
                         </svg>
                       </div>
@@ -87,12 +97,12 @@ export default function Modal({ open = false, setOpen = () => {} }) {
                     <label className="text-sm text-gray-500 my-3">
                       DESCRIÇÃO
                     </label>
-                    <textarea class="w-full h-16 px-3 py-2 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus: border-purple-700" />
+                    <textarea className="w-full h-16 px-3 py-2 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus: border-purple-700" />
                   </div>
-                  <div class="my-4 w-1/2">
-                    <label class="text-sm text-gray-500 my-3">Valor</label>
+                  <div className="my-4 w-1/2">
+                    <label className="text-sm text-gray-500 my-3">Valor</label>
                     <input
-                      class="w-full h-10 px-3 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus:border-purple-700"
+                      className="w-full h-10 px-3 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus:border-purple-700"
                       type="text"
                       placeholder="Regular input"
                     />
@@ -124,3 +134,5 @@ export default function Modal({ open = false, setOpen = () => {} }) {
     </Transition.Root>
   );
 }
+
+export default Modal;
