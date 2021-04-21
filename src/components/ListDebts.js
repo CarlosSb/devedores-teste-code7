@@ -11,6 +11,8 @@ export default function ListDebts() {
   const {
     dividas,
     setDividas,
+    dividasData,
+    setDividasData,
     selectUser,
     handleIntoDebtUser,
     isOpenDetailsDebt,
@@ -18,20 +20,25 @@ export default function ListDebts() {
   } = useDebt();
 
   // realiza um get das dividas existentes
-  const fetcher = (url) => apiDebt.get(url).then((res) => res.data);
+  const fetcher = (url) => apiDebt.get(url).then((res) => res.data.result);
 
   const { data, error } = useSWR(
     `divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`,
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 1000,
+    }
   );
 
   //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
   useEffect(() => {
-    const resultDivida = data?.result?.filter(
-      (d) => d.idUsuario === selectUser.id
-    );
-    setDividas(resultDivida);
-  }, [selectUser, data]);
+    console.log(data);
+    if (data) {
+      const resultDivida = data?.filter((d) => d.idUsuario === selectUser.id);
+      setDividas(resultDivida);
+      setDividasData(data);
+    }
+  }, [selectUser]);
 
   if (error) return <div>falha no carregamento</div>;
   if (!data) return <div>aguarde...</div>;

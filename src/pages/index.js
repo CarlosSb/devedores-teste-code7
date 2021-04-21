@@ -120,7 +120,7 @@ function Home(props) {
           </div>
         </main>
       </div>
-      <Modal users={data} />
+      <Modal users={props.users} />
     </>
   );
 }

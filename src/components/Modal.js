@@ -3,12 +3,14 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MdClose } from "react-icons/md";
 import { StageSpinner } from "react-spinners-kit";
+import { mutate } from "swr";
 
 import useDebt from "../hooks/useDebt";
 import apiDebt from "../services/apiDebt";
 
 function Modal({ users = [] }) {
   const {
+    dividasData,
     selectUser,
     selectDebt,
     editDebt,
@@ -37,13 +39,22 @@ function Modal({ users = [] }) {
 
   const cancelButtonRef = useRef();
 
-  async function insertDebt(data) {
+  async function insertDebt(resp) {
     setLoading(true);
     await apiDebt
-      .post("/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32", data)
+      .post("/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32", resp)
       .then((response) => {
         console.log(response.data);
-        handleToggleModal();
+        handleToggleModal({});
+
+        // update the local data immediately, but disable the revalidation
+        mutate("/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32", {
+          ...dividasData.result,
+          _id: 0,
+          idUsuario,
+          motivo,
+          valor,
+        });
       })
       .catch((err) => console.log(err.response))
       .finally(() => {
@@ -58,7 +69,15 @@ function Modal({ users = [] }) {
       .put(`/divida/${id}?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`, data)
       .then((response) => {
         console.log(response).data;
-        handleToggleModal();
+        handleToggleModal({});
+
+        // update the local data immediately, but disable the revalidation
+        mutate(`/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`, {
+          _id: id,
+          idUsuario,
+          motivo,
+          valor,
+        });
       })
       .catch((err) => console.log(err.response))
       .finally(() => {
@@ -90,7 +109,7 @@ function Modal({ users = [] }) {
         className="fixed z-10 inset-0 overflow-y-auto"
         initialFocus={cancelButtonRef}
         open={isOpenModal}
-        onClose={() => (!loading ? handleToggleModal() : {})}
+        onClose={() => (!loading ? handleToggleModal({}) : {})}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -196,7 +215,7 @@ function Modal({ users = [] }) {
                       disabled={loading}
                       type="button"
                       className="btn btn-outline"
-                      onClick={() => setOpen(false)}
+                      onClick={() => (!loading ? handleToggleModal({}) : {})}
                       ref={cancelButtonRef}
                     >
                       Cancelar

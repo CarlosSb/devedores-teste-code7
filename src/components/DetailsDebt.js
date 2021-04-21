@@ -1,6 +1,9 @@
 import { useContext, useState } from "react";
-import { MdEdit, MdArrowBack, MdDelete } from "react-icons/md";
+import { MdEdit, MdArrowBack, MdDelete, MdWarning } from "react-icons/md";
+import { StageSpinner } from "react-spinners-kit";
+
 import { DebtContext } from "../contexts/DebtsContext";
+import apiDebt from "../services/apiDebt";
 
 export default function DetailsDebt() {
   const {
@@ -9,6 +12,32 @@ export default function DetailsDebt() {
     handleToggleModal,
     handleToggleDetailsDebt,
   } = useContext(DebtContext);
+
+  const [loading, setLoading] = useState(false);
+  const [confirmDel, setConfirmDel] = useState(false);
+
+  async function deleteDebt(id) {
+    setLoading(true);
+    await apiDebt
+      .delete(`divida/${id}?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`)
+      .then((response) => {
+        console.log(response.data);
+        handleToggleDetailsDebt();
+      })
+      .catch((err) => console.log(err.response))
+      .finally(() => {
+        setLoading(false);
+        setConfirmDel(false);
+      });
+  }
+
+  function handleConfirmed() {
+    setConfirmDel(true);
+  }
+
+  function handleDeleteDebt() {
+    deleteDebt(selectDebt._id);
+  }
 
   return (
     <div className="absolute inset-0 bg-gray-50 rounded-md shadow-md">
@@ -23,13 +52,30 @@ export default function DetailsDebt() {
           </button>
           <h2>Detalhes Divida</h2>
         </div>
-
-        <button
-          type="button"
-          className=" focus:outline-none hover:bg-opacity-80 p-2 rounded-full text-red-700 hover:bg-gray-100"
-        >
-          <MdDelete />
-        </button>
+        {(!confirmDel && (
+          <button
+            disabled={loading}
+            onClick={handleConfirmed}
+            type="button"
+            className=" focus:outline-none hover:bg-opacity-80 p-2 rounded-full text-red-700 hover:bg-gray-100"
+          >
+            <MdDelete />
+          </button>
+        )) || (
+          <button
+            disabled={loading}
+            onClick={handleDeleteDebt}
+            type="button"
+            className="flex items-center justify-center gap-2 focus:outline-none hover:bg-opacity-80 p-2 rounded-full text-base text-yellow-500 hover:bg-gray-100"
+          >
+            <StageSpinner size={30} color="#9d7aed" loading={loading} />
+            {!loading && (
+              <>
+                <MdWarning /> Confirmar
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       <div className="px-4 text-gray-800">

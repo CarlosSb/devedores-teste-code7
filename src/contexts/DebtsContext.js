@@ -9,6 +9,7 @@ export function DebtProvider({ children }) {
   const [selectDebt, setSelectDebt] = useState({});
   const [selectUser, setSelectUser] = useState({});
   const [dividas, setDividas] = useState([]);
+  const [dividasData, setDividasData] = useState([]);
   const [editDebt, setEditDebt] = useState(false);
   const [intoDebtUser, setIntoDebtUser] = useState(false);
 
@@ -41,10 +42,13 @@ export function DebtProvider({ children }) {
       value={{
         dividas,
         setDividas,
+        dividasData,
+        setDividasData,
         isOpenModal,
         isOpenDetailsDebt,
         selectDebt,
         selectUser,
+        setSelectDebt,
         editDebt,
         intoDebtUser,
         handleEditDebt,
