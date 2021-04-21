@@ -94,7 +94,7 @@ function Home(props) {
               </div>
             </div>
             {!isEmpty(selectUser) && (
-              <div className=" fixed w-full inset-0 bg-gray-100 md:hidden">
+              <div className="fixed w-full inset-0 bg-gray-100 block md:hidden">
                 <div className="flex items-center gap-2 mx-1">
                   <button
                     onClick={() => handleSelectUser({})}
