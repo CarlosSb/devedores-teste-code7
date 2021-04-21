@@ -10,7 +10,7 @@ export default function DebtItem({ data = {} }) {
       key={data._id}
       onClick={() => handleToggleDetailsDebt(data)}
       type="button"
-      className="flex items-center justify-between gap-2 text-left p-3 rounded border-b border-gray-300 focus:outline-none focus:bg-gray-50 hover:bg-gray-50 hover:opacity-80"
+      className="flex items-center justify-between gap-2 text-left p-3 mx-2 border-b border-gray-300 focus:outline-none focus:bg-gray-50 hover:bg-gray-50 hover:opacity-80"
     >
       <div className="w-full max-w-sm">
         <p className="text-lg text-gray-700 font-medium  truncate">

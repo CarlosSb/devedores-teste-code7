@@ -55,7 +55,7 @@ function Home(props) {
             </button>
           </div>
 
-          <div className="flex gap-2 my-2 relative">
+          <div className="flex gap-2 my-2 ">
             <div className="w-full md:w-1/3 md:h-100 pb-10">
               <h2 className="text-sm text-gray-500 my-3">CLIENTES</h2>
 
@@ -94,7 +94,7 @@ function Home(props) {
               </div>
             </div>
             {!isEmpty(selectUser) && (
-              <div className="fixed w-full inset-0 bg-gray-100 block md:hidden">
+              <div className="fixed overflow-y-auto mx-2 inset-0 bg-gray-100 block md:hidden">
                 <div className="flex items-center gap-2 mx-1">
                   <button
                     onClick={() => handleSelectUser({})}
@@ -105,7 +105,7 @@ function Home(props) {
                   </button>
                   <h2 className="text-sm text-gray-500 my-3">DIVIDAS</h2>
                 </div>
-                <div className="bg-white rounded shadow-md p-4 h-full">
+                <div className="bg-white  rounded shadow-md p-4">
                   {(!isEmpty(selectUser) && <ListDebts />) || (
                     <div className="h-full flex items-center justify-center">
                       <p className="max-w-sm text-center text-xl">

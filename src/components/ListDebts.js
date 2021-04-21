@@ -41,7 +41,7 @@ export default function ListDebts() {
           + Divida ao Cliente
         </button>
       </div>
-      <div className="h-96 relative mt-5 mb-4 -mb-6">
+      <div className="h-full md:h-96 relative mt-5 mb-4 md:-mb-6">
         <div className="flex flex-col h-full overflow-y-auto m-1">
           {/**lista de Dividas do Cliente */}
 
