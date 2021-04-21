@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 html {
+  font: 400 16px "Inter", sans-serif;
   @apply bg-gray-100 h-screen;
 }
 
