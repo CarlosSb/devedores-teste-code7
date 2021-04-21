@@ -72,10 +72,12 @@ function Modal({ users = [] }) {
                         className="w-full h-10 pl-3 pr-6 text-base placeholder-gray-500 bg-white border rounded-lg appearance-none focus:border-purple-700 focus:outline-none"
                         placeholder="Regular input"
                       >
-                        {users.map((us) => (
-                          <option value={us.id}>{us.name}</option>
+                        {users?.map((us, index) => (
+                          <option key={index} value={us.id}>
+                            {us.name}
+                          </option>
                         ))}
-                        {users.length === 0 && (
+                        {users?.length === 0 && (
                           <option>Usuários não encontradados</option>
                         )}
                       </select>

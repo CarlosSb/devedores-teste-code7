@@ -64,8 +64,8 @@ function Home(props) {
               <div className="flex flex-col gap-2 mt-1 pr-2 h-full overflow-y-auto">
                 {/** lista de Clientes */}
 
-                {users.map((cliente) => (
-                  <ClientItem data={cliente} />
+                {users.map((cliente, index) => (
+                  <ClientItem key={index} data={cliente} />
                 ))}
 
                 {users.length === 0 && (

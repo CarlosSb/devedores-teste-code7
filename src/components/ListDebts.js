@@ -41,18 +41,18 @@ export default function ListDebts() {
           + Divida ao Cliente
         </button>
       </div>
-      <div className="h-96 relative mt-5 mb-4 ">
+      <div className="h-96 relative mt-5 mb-4 -mb-6">
         <div className="flex flex-col h-full overflow-y-auto m-1">
           {/**lista de Dividas do Cliente */}
 
-          {dividas?.map((divida) => (
-            <DebtItem data={divida} />
+          {dividas?.map((divida, index) => (
+            <DebtItem key={index} data={divida} />
           ))}
 
           {/**lista de Dividas do Cliente */}
         </div>
 
-        {isOpenDetailsDebt || (dividas?.length !== 0 && <DetailsDebt />)}
+        {isOpenDetailsDebt && dividas?.length !== 0 && <DetailsDebt />}
       </div>
     </>
   );
