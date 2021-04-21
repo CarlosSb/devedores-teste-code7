@@ -1,15 +1,23 @@
-import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-import useDebt from "../hooks/useDebt";
 import apiDebt from "../services/apiDebt";
+import useDebt from "../hooks/useDebt";
 
 import DebtItem from "./DebtItem";
 import DetailsDebt from "./DetailsDebt";
+import { useEffect } from "react";
 
 export default function ListDebts() {
-  const { selectUser, isOpenDetailsDebt, handleToggleModal } = useDebt();
+  const {
+    dividas,
+    setDividas,
+    selectUser,
+    handleIntoDebtUser,
+    isOpenDetailsDebt,
+    handleToggleModal,
+  } = useDebt();
 
+  // realiza um get das dividas existentes
   const fetcher = (url) => apiDebt.get(url).then((res) => res.data);
 
   const { data, error } = useSWR(
@@ -17,7 +25,6 @@ export default function ListDebts() {
     fetcher
   );
 
-  const [dividas, setDividas] = useState([]);
   //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
   useEffect(() => {
     const resultDivida = data?.result?.filter(
@@ -34,20 +41,29 @@ export default function ListDebts() {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl text-gray-800">{selectUser.name}</h2>
         <button
-          onClick={handleToggleModal}
+          onClick={() => {
+            handleToggleModal();
+            handleIntoDebtUser();
+          }}
           type="button"
-          className="text-purple-700 hover:text-purple-600 focus:text-purple-600 focus:outline-none"
+          className="flex items-center justify-center gap-2 text-purple-700 hover:text-purple-600 focus:text-purple-600 focus:outline-none"
         >
-          + Divida ao Cliente
+          <span className="text-xl">+</span>
+          <span className="hidden sm:block">Divida ao Cliente</span>
         </button>
       </div>
       <div className="h-full md:h-96 relative mt-5 mb-4 md:-mb-6">
-        <div className="flex flex-col h-full overflow-y-auto m-1">
+        <div className="flex flex-col h-full min-h-80 overflow-y-auto m-1">
           {/**lista de Dividas do Cliente */}
 
           {dividas?.map((divida, index) => (
             <DebtItem key={index} data={divida} />
           ))}
+          {dividas?.length === 0 && (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-center">Não possue dividas</p>
+            </div>
+          )}
 
           {/**lista de Dividas do Cliente */}
         </div>

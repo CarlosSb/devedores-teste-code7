@@ -6,6 +6,9 @@ module.exports = {
       height: {
         100: "30rem",
       },
+      minHeight: {
+        80: "20rem",
+      },
     },
   },
   variants: {

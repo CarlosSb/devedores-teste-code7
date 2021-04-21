@@ -3,7 +3,12 @@ import { MdEdit, MdArrowBack, MdDelete } from "react-icons/md";
 import { DebtContext } from "../contexts/DebtsContext";
 
 export default function DetailsDebt() {
-  const { selectDebt, handleToggleDetailsDebt } = useContext(DebtContext);
+  const {
+    selectDebt,
+    handleEditDebt,
+    handleToggleModal,
+    handleToggleDetailsDebt,
+  } = useContext(DebtContext);
 
   return (
     <div className="absolute inset-0 bg-gray-50 rounded-md shadow-md">
@@ -30,6 +35,10 @@ export default function DetailsDebt() {
       <div className="px-4 text-gray-800">
         <button
           type="button"
+          onClick={() => {
+            handleToggleModal();
+            handleEditDebt();
+          }}
           className="flex items-center gap-1 text-purple-700 hover:text-purple-600 focus:text-purple-600 focus:outline-none"
         >
           <MdEdit /> EDITAR

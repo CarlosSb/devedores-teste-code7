@@ -1,15 +1,86 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MdClose } from "react-icons/md";
+import { StageSpinner } from "react-spinners-kit";
 
 import useDebt from "../hooks/useDebt";
 import apiDebt from "../services/apiDebt";
 
 function Modal({ users = [] }) {
-  const { selectUser, selectDebt, isOpenModal, handleToggleModal } = useDebt();
+  const {
+    selectUser,
+    selectDebt,
+    editDebt,
+    intoDebtUser,
+    isOpenModal,
+    handleToggleModal,
+  } = useDebt();
+
+  const [loading, setLoading] = useState(false);
+  const [idUsuario, setIdUsuario] = useState(users[0]?.id);
+  const [motivo, setModivo] = useState("");
+  const [valor, setValor] = useState(0);
+
+  useEffect(() => {
+    if (editDebt) {
+      setIdUsuario(selectDebt?.idUsuario);
+      setModivo(selectDebt?.motivo);
+      setValor(selectDebt?.valor);
+    }
+    if (intoDebtUser) {
+      setIdUsuario(selectUser.id);
+      setModivo("");
+      setValor(0);
+    }
+  }, [editDebt, intoDebtUser]);
 
   const cancelButtonRef = useRef();
+
+  async function insertDebt(data) {
+    setLoading(true);
+    await apiDebt
+      .post("/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32", data)
+      .then((response) => {
+        console.log(response.data);
+        handleToggleModal();
+      })
+      .catch((err) => console.log(err.response))
+      .finally(() => {
+        console.log("finalizando");
+        setLoading(false);
+      });
+  }
+
+  async function updateDebt(data, id) {
+    setLoading(true);
+    await apiDebt
+      .put(`/divida/${id}?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`, data)
+      .then((response) => {
+        console.log(response).data;
+        handleToggleModal();
+      })
+      .catch((err) => console.log(err.response))
+      .finally(() => {
+        console.log("finalizando");
+        setLoading(false);
+      });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const data = {
+      idUsuario: Number(idUsuario),
+      motivo,
+      valor: Number(valor),
+    };
+    if (editDebt) {
+      updateDebt(data, selectDebt._id);
+    } else {
+      insertDebt(data);
+    }
+  }
 
   return (
     <Transition.Root show={isOpenModal} as={Fragment}>
@@ -19,7 +90,7 @@ function Modal({ users = [] }) {
         className="fixed z-10 inset-0 overflow-y-auto"
         initialFocus={cancelButtonRef}
         open={isOpenModal}
-        onClose={handleToggleModal}
+        onClose={() => (!loading ? handleToggleModal() : {})}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -55,6 +126,7 @@ function Modal({ users = [] }) {
                 <h2>Divida</h2>
                 <button
                   type="button"
+                  disabled={loading}
                   className=" rounded-full p-2 hover:bg-gray-50 focus:outline-none"
                   onClick={handleToggleModal}
                 >
@@ -62,13 +134,16 @@ function Modal({ users = [] }) {
                 </button>
               </div>
               <div className="bg-white px-4 pt-5 pb-4">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="my-4 w-2/3">
                     <label className="text-sm text-gray-500 my-3">
                       CLIENTE
                     </label>
                     <div className="relative inline-block w-full text-gray-800">
                       <select
+                        disabled={editDebt || intoDebtUser}
+                        value={idUsuario}
+                        onChange={(e) => setIdUsuario(e.target.value)}
                         className="w-full h-10 pl-3 pr-6 text-base placeholder-gray-500 bg-white border rounded-lg appearance-none focus:border-purple-700 focus:outline-none"
                         placeholder="Regular input"
                       >
@@ -99,19 +174,26 @@ function Modal({ users = [] }) {
                     <label className="text-sm text-gray-500 my-3">
                       DESCRIÇÃO
                     </label>
-                    <textarea className="w-full h-16 px-3 py-2 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus: border-purple-700" />
+                    <textarea
+                      onChange={(e) => setModivo(e.target.value)}
+                      value={motivo}
+                      className="w-full h-16 px-3 py-2 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus: border-purple-700"
+                    />
                   </div>
                   <div className="my-4 w-1/2">
                     <label className="text-sm text-gray-500 my-3">Valor</label>
                     <input
+                      value={valor}
+                      onChange={(e) => setValor(e.target.value)}
                       className="w-full h-10 px-3 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus:border-purple-700"
                       type="text"
-                      placeholder="Regular input"
+                      placeholder="150,00"
                     />
                   </div>
 
                   <div className=" flex justify-end gap-2 mt-4">
                     <button
+                      disabled={loading}
                       type="button"
                       className="btn btn-outline"
                       onClick={() => setOpen(false)}
@@ -120,11 +202,12 @@ function Modal({ users = [] }) {
                       Cancelar
                     </button>
                     <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => setOpen(false)}
+                      disabled={loading}
+                      type="submit"
+                      className="btn btn-primary flex items-center justify-center gap-2 w-20"
                     >
-                      Salvar
+                      <StageSpinner size={30} color="#fff" loading={loading} />
+                      {!loading && "Salvar"}
                     </button>
                   </div>
                 </form>
