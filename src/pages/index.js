@@ -10,8 +10,7 @@ import ListDebts from "../components/ListDebts";
 import useDebt from "../hooks/useDebt";
 import apiUser from "../services/apiUser";
 
-const fetcher = (url) =>
-  apiUser.get(url, { validateStatus: false }).then((res) => res.data);
+const fetcher = (url) => apiUser.get(url).then((res) => res.data);
 
 function Home(props) {
   const {
