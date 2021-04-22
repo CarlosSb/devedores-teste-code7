@@ -23,7 +23,6 @@ function Home(props) {
     setIsOpenModal,
     selectUser,
   } = useDebt();
-  console.log(props.users);
   const [buscar, setBuscar] = useState("");
   const [users, setUsers] = useState(props.users);
   //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
