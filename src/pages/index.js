@@ -10,7 +10,8 @@ import ListDebts from "../components/ListDebts";
 import useDebt from "../hooks/useDebt";
 import apiUser from "../services/apiUser";
 
-const fetcher = (url) => apiUser.get(url).then((res) => res.data);
+const fetcher = (url) =>
+  apiUser.get(url, { validateStatus: false }).then((res) => res.data);
 
 function Home(props) {
   const {
@@ -19,12 +20,12 @@ function Home(props) {
     setIsOpenModal,
     selectUser,
   } = useDebt();
-
+  console.log(props.users);
   const [buscar, setBuscar] = useState("");
   const [users, setUsers] = useState(props.users);
   //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
   useEffect(() => {
-    const resultUser = props.users.filter(
+    const resultUser = props.users?.filter(
       (us) => us.name.toLowerCase().indexOf(buscar.toLowerCase()) > -1
     );
     setUsers(resultUser);
@@ -54,7 +55,7 @@ function Home(props) {
             >
               + Divida
             </button>
-            <p className="text-sm text-gray-500 my-2 inline-flex items-center ">
+            <p className="text-sm text-gray-500 my-2 flex items-center ">
               <FiInfo className="text-gray-700 ml-2 mr-1" /> Escolhar um cliente
               para atribuir dividas
             </p>
@@ -76,7 +77,9 @@ function Home(props) {
                 {users.length === 0 && (
                   <div className="h-full flex items-center justify-center">
                     <p className="max-w-sm text-center text-xl">
-                      Cliente não Encontrado
+                      {props.status
+                        ? "Cliente não Encontrado"
+                        : "Instabilidade na Api de clientes, recarrege a página!"}
                     </p>
                   </div>
                 )}
@@ -131,9 +134,14 @@ function Home(props) {
 }
 
 export async function getStaticProps() {
-  const users = await fetcher("users");
+  const users = await fetcher("/users");
 
-  return { props: { users } };
+  return {
+    props: {
+      users: Array.isArray(users) ? users : [],
+      status: Array.isArray(users),
+    },
+  };
 }
 
 export default Home;
