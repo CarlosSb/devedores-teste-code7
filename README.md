@@ -1,34 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 💻 Projeto
+
+Projeto que tem como objetivo relacionar clientes já existente de maneira simples e intuitiva.
+
+# ![Home image](.github/capa.jpg)
+
+>
+
+## 🔖 Layout
+
+Para acessar o layout use:
+-desktop: [Figma](https://www.figma.com/file/8uTMq3yh8eXzlBLS5MxvFh/teste-code7-desktop).
+-mobile: [Figma](https://www.figma.com/file/N2FQ5PLdF6aBta7VS93z7j/teste-code7-mobile).
+
+>
+
+## 🚀 Tecnologias
+
+Este projeto foi desenvolvido com as senguintes tecnologias:
+
+- Node.js
+- JavaScript
+- React
+- NextJs
+
+>
+
+## ☁️ External API
+
+O projeto utilizou APIS externas.
+
+- [JSONPlaceholder](https://jsonplaceholder.typicode.com/users)
+- [Api de Dividas (é necessario um UUID válido disponibildado pela Convert)](https://provadev.xlab.digital/api/v1/divida?uuid=[uuid_valido])
+
+>
+
+> >
+
+<h4 align="center">
+    Feito por <a href="https://www.linkedin.com/in/antonio-carlos-martins-1316a9128/" style="color: #00a0df" target="_blank">Antônio Carlos Martins</a>
+</h4>
 
 ## Getting Started
 
-First, run the development server:
+Clonando repositório:
 
 ```bash
-npm run dev
-# or
-yarn dev
+    git clone https://github.com/CarlosSb/devedores-teste-code7.git
+    # ou
+    download do repositório - arquivo compactado
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Execute o servidor de desenvolvimento:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```bash
+    cd devedores-teste-code7
+    npm  install
+    # or
+    yarn install
+    # em seguida
+    npm run dev
+    # or
+    yarn dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Abra [http://localhost:3000](http://localhost:3000) com seu navegador e veja o resultado.

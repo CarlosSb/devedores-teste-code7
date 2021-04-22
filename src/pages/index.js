@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { MdArrowBack } from "react-icons/md";
+import { FiInfo } from "react-icons/fi";
 
 import Modal from "../components/Modal";
 import ClientItem from "../components/ClientItem";
@@ -42,7 +43,7 @@ function Home(props) {
         </Head>
 
         <main className="max-w-5xl mx-auto flex flex-col h-full">
-          <div className="pb-1 pt-6">
+          <div className="pt-6">
             <button
               onClick={() => {
                 setIsOpenModal(true);
@@ -53,6 +54,10 @@ function Home(props) {
             >
               + Divida
             </button>
+            <p className="text-sm text-gray-500 my-2 inline-flex items-center ">
+              <FiInfo className="text-gray-700 ml-2 mr-1" /> Escolhar um cliente
+              para atribuir dividas
+            </p>
           </div>
 
           <div className="flex gap-2 my-2 ">

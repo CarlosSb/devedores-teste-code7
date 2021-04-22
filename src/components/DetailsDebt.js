@@ -100,7 +100,7 @@ export default function DetailsDebt() {
           <p className="text-2xl">
             <span className="p-1">R$</span>
             <span className="text-blue-700">
-              {selectDebt?.valor.toLocaleString("pt-BR", {
+              {selectDebt?.valor?.toLocaleString("pt-BR", {
                 minimumFractionDigits: 2,
               })}
             </span>

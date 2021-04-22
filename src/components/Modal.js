@@ -29,9 +29,12 @@ function Modal({ users = [] }) {
       setIdUsuario(selectDebt?.idUsuario);
       setModivo(selectDebt?.motivo);
       setValor(selectDebt?.valor);
-    }
-    if (!!intoDebtUser) {
+    } else if (!!intoDebtUser) {
       setIdUsuario(selectUser.id);
+      setModivo("");
+      setValor(0);
+    } else {
+      setIdUsuario(users[0]?.id);
       setModivo("");
       setValor(0);
     }
@@ -87,6 +90,10 @@ function Modal({ users = [] }) {
     }
   }
 
+  function handleCloseModal() {
+    setIsOpenModal(false);
+  }
+
   return (
     <Transition.Root show={isOpenModal} as={Fragment}>
       <Dialog
@@ -95,7 +102,7 @@ function Modal({ users = [] }) {
         className="fixed z-10 inset-0 overflow-y-auto"
         initialFocus={cancelButtonRef}
         open={isOpenModal}
-        onClose={() => (!loading ? setIsOpenModal(false) : {})}
+        onClose={() => (!loading ? handleCloseModal() : {})}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -133,7 +140,7 @@ function Modal({ users = [] }) {
                   type="button"
                   disabled={loading}
                   className=" rounded-full p-2 hover:bg-gray-50 focus:outline-none"
-                  onClick={() => setIsOpenModal(false)}
+                  onClick={() => handleCloseModal()}
                 >
                   <MdClose />
                 </button>
@@ -201,7 +208,7 @@ function Modal({ users = [] }) {
                       disabled={loading}
                       type="button"
                       className="btn btn-outline"
-                      onClick={() => (!loading ? setIsOpenModal(false) : {})}
+                      onClick={() => (!loading ? handleCloseModal() : {})}
                       ref={cancelButtonRef}
                     >
                       Cancelar

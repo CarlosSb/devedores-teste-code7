@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const DebtContext = createContext();
 
@@ -34,6 +34,7 @@ export function DebtProvider({ children }) {
   function handleEmpytDebtUser() {
     setIntoDebtUser(false);
     setEditDebt(false);
+    setIsOpenDetailsDebt(false);
   }
 
   return (
