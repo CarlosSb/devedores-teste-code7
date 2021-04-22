@@ -1,5 +1,4 @@
-import { createContext, useState, useEffect } from "react";
-import apiDebt from "../services/apiDebt";
+import { createContext, useEffect, useState } from "react";
 
 export const DebtContext = createContext();
 
@@ -13,13 +12,8 @@ export function DebtProvider({ children }) {
   const [editDebt, setEditDebt] = useState(false);
   const [intoDebtUser, setIntoDebtUser] = useState(false);
 
-  function handleToggleModal() {
-    setIsOpenModal(!isOpenModal);
-  }
-
   function handleToggleDetailsDebt(data) {
     setIsOpenDetailsDebt(!isOpenDetailsDebt);
-
     setSelectDebt(data);
   }
 
@@ -37,6 +31,11 @@ export function DebtProvider({ children }) {
     setEditDebt(false);
   }
 
+  function handleEmpytDebtUser() {
+    setIntoDebtUser(false);
+    setEditDebt(false);
+  }
+
   return (
     <DebtContext.Provider
       value={{
@@ -45,7 +44,9 @@ export function DebtProvider({ children }) {
         dividasData,
         setDividasData,
         isOpenModal,
+        setIsOpenModal,
         isOpenDetailsDebt,
+        setIsOpenDetailsDebt,
         selectDebt,
         selectUser,
         setSelectDebt,
@@ -53,7 +54,7 @@ export function DebtProvider({ children }) {
         intoDebtUser,
         handleEditDebt,
         handleIntoDebtUser,
-        handleToggleModal,
+        handleEmpytDebtUser,
         handleToggleDetailsDebt,
         handleSelectUser,
       }}

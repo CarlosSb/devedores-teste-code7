@@ -9,7 +9,7 @@ export default function DetailsDebt() {
   const {
     selectDebt,
     handleEditDebt,
-    handleToggleModal,
+    setIsOpenModal,
     handleToggleDetailsDebt,
   } = useContext(DebtContext);
 
@@ -44,7 +44,7 @@ export default function DetailsDebt() {
       <div className="flex items justify-between text-gray-800 text-xl p-3">
         <div className="flex items-center gap-2">
           <button
-            onClick={handleToggleDetailsDebt}
+            onClick={() => handleToggleDetailsDebt({})}
             type="button"
             className="focus:outline-none p-2 rounded-full hover:bg-gray-100"
           >
@@ -82,7 +82,7 @@ export default function DetailsDebt() {
         <button
           type="button"
           onClick={() => {
-            handleToggleModal();
+            setIsOpenModal(true);
             handleEditDebt();
           }}
           className="flex items-center gap-1 text-purple-700 hover:text-purple-600 focus:text-purple-600 focus:outline-none"
@@ -97,12 +97,19 @@ export default function DetailsDebt() {
 
         <div className="my-5">
           <h2 className="text-sm text-gray-500 my-3">VALOR</h2>
-          <p className="text-2xl">{`R$ ${selectDebt?.valor}`}</p>
+          <p className="text-2xl">
+            <span className="p-1">R$</span>
+            <span className="text-blue-700">
+              {selectDebt?.valor.toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+              })}
+            </span>
+          </p>
         </div>
 
         <div className="my-5">
           <h2 className="text-sm text-gray-500 my-3">DATA DASTRO</h2>
-          <p>{selectDebt?.criado}</p>
+          <p>{new Date(selectDebt?.criado).toLocaleString()}</p>
         </div>
       </div>
     </div>

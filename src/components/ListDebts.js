@@ -11,12 +11,12 @@ export default function ListDebts() {
   const {
     dividas,
     setDividas,
-    dividasData,
     setDividasData,
     selectUser,
     handleIntoDebtUser,
     isOpenDetailsDebt,
-    handleToggleModal,
+    setIsOpenDetailsDebt,
+    setIsOpenModal,
   } = useDebt();
 
   // realiza um get das dividas existentes
@@ -32,13 +32,13 @@ export default function ListDebts() {
 
   //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
   useEffect(() => {
-    console.log(data);
     if (data) {
       const resultDivida = data?.filter((d) => d.idUsuario === selectUser.id);
       setDividas(resultDivida);
       setDividasData(data);
+      setIsOpenDetailsDebt();
     }
-  }, [selectUser]);
+  }, [selectUser, data]);
 
   if (error) return <div>falha no carregamento</div>;
   if (!data) return <div>aguarde...</div>;
@@ -49,7 +49,7 @@ export default function ListDebts() {
         <h2 className="text-2xl text-gray-800">{selectUser.name}</h2>
         <button
           onClick={() => {
-            handleToggleModal();
+            setIsOpenModal(true);
             handleIntoDebtUser();
           }}
           type="button"

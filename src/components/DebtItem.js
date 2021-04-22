@@ -16,12 +16,19 @@ export default function DebtItem({ data = {} }) {
         <p className="text-lg text-gray-700 font-medium truncate">
           {data?.motivo}
         </p>
-        <p className="text-xs text-gray-400 truncate">{data?.criado}</p>
+        <p className="text-xs text-gray-400 truncate">
+          {new Date(data?.criado).toLocaleString()}
+        </p>
       </div>
 
       <div className=" absolute flex items-center justify-between right-0 top-0 bottom-0">
-        <p className="text-lg p-3">
-          R$<span className="text-blue-700">{data?.valor}</span>
+        <p className="text-lg p-3 ">
+          <span className="p-1">R$</span>
+          <span className="text-blue-700">
+            {data?.valor.toLocaleString("pt-BR", {
+              minimumFractionDigits: 2,
+            })}
+          </span>
         </p>
 
         <BsArrowRight className="text-gray-800 text-3xl mx-3" />

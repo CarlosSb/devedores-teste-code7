@@ -3,20 +3,20 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { MdClose } from "react-icons/md";
 import { StageSpinner } from "react-spinners-kit";
-import { mutate } from "swr";
 
 import useDebt from "../hooks/useDebt";
 import apiDebt from "../services/apiDebt";
 
 function Modal({ users = [] }) {
   const {
-    dividasData,
     selectUser,
+    setSelectDebt,
     selectDebt,
     editDebt,
     intoDebtUser,
     isOpenModal,
-    handleToggleModal,
+    setIsOpenModal,
+    handleToggleDetailsDebt,
   } = useDebt();
 
   const [loading, setLoading] = useState(false);
@@ -25,17 +25,17 @@ function Modal({ users = [] }) {
   const [valor, setValor] = useState(0);
 
   useEffect(() => {
-    if (editDebt) {
+    if (!!editDebt) {
       setIdUsuario(selectDebt?.idUsuario);
       setModivo(selectDebt?.motivo);
       setValor(selectDebt?.valor);
     }
-    if (intoDebtUser) {
+    if (!!intoDebtUser) {
       setIdUsuario(selectUser.id);
       setModivo("");
       setValor(0);
     }
-  }, [editDebt, intoDebtUser]);
+  }, [editDebt, intoDebtUser, selectDebt]);
 
   const cancelButtonRef = useRef();
 
@@ -44,17 +44,8 @@ function Modal({ users = [] }) {
     await apiDebt
       .post("/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32", resp)
       .then((response) => {
-        console.log(response.data);
-        handleToggleModal({});
-
-        // update the local data immediately, but disable the revalidation
-        mutate("/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32", {
-          ...dividasData.result,
-          _id: 0,
-          idUsuario,
-          motivo,
-          valor,
-        });
+        setIsOpenModal(false);
+        handleToggleDetailsDebt({});
       })
       .catch((err) => console.log(err.response))
       .finally(() => {
@@ -67,16 +58,11 @@ function Modal({ users = [] }) {
     setLoading(true);
     await apiDebt
       .put(`/divida/${id}?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`, data)
-      .then((response) => {
-        console.log(response).data;
-        handleToggleModal({});
-
-        // update the local data immediately, but disable the revalidation
-        mutate(`/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`, {
+      .then(() => {
+        setIsOpenModal(false);
+        setSelectDebt({
           _id: id,
-          idUsuario,
-          motivo,
-          valor,
+          ...data,
         });
       })
       .catch((err) => console.log(err.response))
@@ -109,7 +95,7 @@ function Modal({ users = [] }) {
         className="fixed z-10 inset-0 overflow-y-auto"
         initialFocus={cancelButtonRef}
         open={isOpenModal}
-        onClose={() => (!loading ? handleToggleModal({}) : {})}
+        onClose={() => (!loading ? setIsOpenModal(false) : {})}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -147,7 +133,7 @@ function Modal({ users = [] }) {
                   type="button"
                   disabled={loading}
                   className=" rounded-full p-2 hover:bg-gray-50 focus:outline-none"
-                  onClick={handleToggleModal}
+                  onClick={() => setIsOpenModal(false)}
                 >
                   <MdClose />
                 </button>
@@ -205,7 +191,7 @@ function Modal({ users = [] }) {
                       value={valor}
                       onChange={(e) => setValor(e.target.value)}
                       className="w-full h-10 px-3 text-base text-gray-800 placeholder-gray-500 border rounded-lg focus:outline-none focus:border-purple-700"
-                      type="text"
+                      type="number"
                       placeholder="150,00"
                     />
                   </div>
@@ -215,7 +201,7 @@ function Modal({ users = [] }) {
                       disabled={loading}
                       type="button"
                       className="btn btn-outline"
-                      onClick={() => (!loading ? handleToggleModal({}) : {})}
+                      onClick={() => (!loading ? setIsOpenModal(false) : {})}
                       ref={cancelButtonRef}
                     >
                       Cancelar

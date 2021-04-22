@@ -13,7 +13,12 @@ import apiUser from "../services/apiUser";
 const fetcher = (url) => apiUser.get(url).then((res) => res.data);
 
 function Home(props) {
-  const { handleSelectUser, handleToggleModal, selectUser } = useDebt();
+  const {
+    handleSelectUser,
+    handleEmpytDebtUser,
+    setIsOpenModal,
+    selectUser,
+  } = useDebt();
 
   const { data, error } = useSWR("users", fetcher, {
     initialData: props.users,
@@ -47,7 +52,10 @@ function Home(props) {
         <main className="max-w-5xl mx-auto flex flex-col h-full">
           <div className="pb-1 pt-6">
             <button
-              onClick={handleToggleModal}
+              onClick={() => {
+                setIsOpenModal(true);
+                handleEmpytDebtUser();
+              }}
               type="button"
               className="btn btn-primary"
             >
