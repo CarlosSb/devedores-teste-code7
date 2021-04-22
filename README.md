@@ -1,6 +1,6 @@
 ## 💻 Projeto
 
-Projeto que tem como objetivo relacionar clientes já existente de maneira simples e intuitiva.
+Projeto que tem como objetivo relacionar clientes já existente com dividas de maneira simples e intuitiva.
 
 ![Captura de tela de 2021-04-22 14-21-47](https://user-images.githubusercontent.com/7946678/115759716-f06bd800-a376-11eb-9381-06c349b421b4.png)
 
@@ -16,7 +16,7 @@ Para acessar o layout use:
 
 ## 🚀 Tecnologias
 
-Este projeto foi desenvolvido com as senguintes tecnologias:
+Este projeto foi desenvolvido com as seguintes tecnologias:
 
 - Node.js
 - JavaScript
@@ -27,10 +27,10 @@ Este projeto foi desenvolvido com as senguintes tecnologias:
 
 ## ☁️ External API
 
-O projeto utilizou APIS externas.
+O projeto utilizou APIs externas.
 
 - [JSONPlaceholder](https://jsonplaceholder.typicode.com/users)
-- [Api de Dividas (é necessario um UUID válido disponibildado pela Convert)](https://provadev.xlab.digital/api/v1/divida?uuid=[uuid_valido])
+- [API de Dividas (é necessario um UUID válido disponibildado pela Convert)](https://provadev.xlab.digital/api/v1/divida?uuid=[uuid_valido])
 
 >
 
