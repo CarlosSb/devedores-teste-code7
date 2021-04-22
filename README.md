@@ -2,7 +2,7 @@
 
 Projeto que tem como objetivo relacionar clientes já existente com dividas de maneira simples e intuitiva.
 
-![Captura de tela de 2021-04-22 14-21-47](https://user-images.githubusercontent.com/7946678/115759716-f06bd800-a376-11eb-9381-06c349b421b4.png)
+![Captura de tela de 2021-04-22 17-34-33](https://user-images.githubusercontent.com/7946678/115781725-2322ca00-a391-11eb-9ab7-9c32494fab06.png)
 
 >
 
