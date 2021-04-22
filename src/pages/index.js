@@ -10,7 +10,11 @@ import ListDebts from "../components/ListDebts";
 import useDebt from "../hooks/useDebt";
 import apiUser from "../services/apiUser";
 
-const fetcher = (url) => apiUser.get(url).then((res) => res.data);
+const fetcher = (url) =>
+  apiUser
+    .get(url, { validateStatus: false })
+    .then((res) => res.data)
+    .catch((err) => err.response);
 
 function Home(props) {
   const {
@@ -76,9 +80,7 @@ function Home(props) {
                 {users.length === 0 && (
                   <div className="h-full flex items-center justify-center">
                     <p className="max-w-sm text-center text-xl">
-                      {props.status
-                        ? "Cliente não Encontrado"
-                        : "Instabilidade na Api de clientes, recarrege a página!"}
+                      Cliente não Encontrado
                     </p>
                   </div>
                 )}
@@ -134,11 +136,11 @@ function Home(props) {
 
 export async function getStaticProps() {
   const users = await fetcher("/users");
+  console.log(users);
 
   return {
     props: {
       users: Array.isArray(users) ? users : [],
-      status: Array.isArray(users),
     },
   };
 }
