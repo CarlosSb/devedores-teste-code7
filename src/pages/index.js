@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import useSWR from "swr";
 import { MdArrowBack } from "react-icons/md";
 
 import Modal from "../components/Modal";
@@ -20,15 +19,11 @@ function Home(props) {
     selectUser,
   } = useDebt();
 
-  const { data, error } = useSWR("users", fetcher, {
-    initialData: props.users,
-  });
-
   const [buscar, setBuscar] = useState("");
-  const [users, setUsers] = useState(data);
+  const [users, setUsers] = useState(props.users);
   //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
   useEffect(() => {
-    const resultUser = data.filter(
+    const resultUser = props.users.filter(
       (us) => us.name.toLowerCase().indexOf(buscar.toLowerCase()) > -1
     );
     setUsers(resultUser);
@@ -37,9 +32,6 @@ function Home(props) {
   function isEmpty(obj) {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
-
-  if (error) return <div>Falha no carregamento</div>;
-  if (!data) return <div>aguarde...</div>;
 
   return (
     <>
