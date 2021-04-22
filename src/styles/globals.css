@@ -33,3 +33,7 @@ html {
 .btn-outline {
   @apply border border-gray-300 bg-transparent text-base font-medium text-gray-700 hover:bg-gray-50;
 }
+
+.price-item {
+  @apply absolute flex items-center justify-end w-44 right-0 mx-1;
+}
