@@ -9,8 +9,9 @@ Projeto que tem como objetivo relacionar clientes já existente com dividas de m
 ## 🔖 Layout
 
 Para acessar o layout use:
--desktop: [Figma](https://www.figma.com/file/8uTMq3yh8eXzlBLS5MxvFh/teste-code7-desktop).
--mobile: [Figma](https://www.figma.com/file/N2FQ5PLdF6aBta7VS93z7j/teste-code7-mobile).
+
+- desktop: [Figma](https://www.figma.com/file/8uTMq3yh8eXzlBLS5MxvFh/teste-code7-desktop).
+- mobile: [Figma](https://www.figma.com/file/N2FQ5PLdF6aBta7VS93z7j/teste-code7-mobile).
 
 >
 
