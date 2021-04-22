@@ -21,8 +21,8 @@ export default function DebtItem({ data = {} }) {
         </p>
       </div>
 
-      <div className=" absolute flex items-center justify-between right-0 top-0 bottom-0">
-        <p className="text-lg p-3 ">
+      <div className=" absolute flex items-center justify-between right-0">
+        <p className="text-lg p-2 ">
           <span className="p-1">R$</span>
           <span className="text-blue-700">
             {data?.valor.toLocaleString("pt-BR", {
@@ -31,7 +31,7 @@ export default function DebtItem({ data = {} }) {
           </span>
         </p>
 
-        <BsArrowRight className="text-gray-800 text-3xl mx-3" />
+        <BsArrowRight className="text-gray-800 text-3xl mx-2" />
       </div>
     </button>
   );
