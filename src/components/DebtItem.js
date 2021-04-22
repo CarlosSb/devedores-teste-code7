@@ -21,7 +21,7 @@ export default function DebtItem({ data = {} }) {
         </p>
       </div>
 
-      <div className="absolute flex items-center justify-end w-44 right-0 mx-2">
+      <div className="absolute flex items-center justify-end w-44 right-1 mx-1">
         <p className="text-lg p-2 ">
           <span className="p-1">R$</span>
           <span className="text-blue-700">
