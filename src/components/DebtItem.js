@@ -10,9 +10,9 @@ export default function DebtItem({ data = {} }) {
       key={data._id}
       onClick={() => handleToggleDetailsDebt(data)}
       type="button"
-      className="relative flex items-center justify-between gap-2 text-left p-3 mx-2 border-b border-gray-300 focus:outline-none focus:bg-gray-50 hover:bg-gray-50 hover:opacity-80"
+      className="flex items-center justify-between gap-2 text-left p-3 mx-2 border-b border-gray-300 focus:outline-none focus:bg-gray-50 hover:bg-gray-50 hover:opacity-80"
     >
-      <div className="w-full pr-32">
+      <div className="relative w-full pr-32">
         <p className="text-lg text-gray-700 font-medium truncate">
           {data?.motivo}
         </p>
@@ -21,7 +21,7 @@ export default function DebtItem({ data = {} }) {
         </p>
       </div>
 
-      <div className="absolute flex items-center justify-between right-0">
+      <div className="absolute flex items-center justify-end w-44 right-0 mx-2">
         <p className="text-lg p-2 ">
           <span className="p-1">R$</span>
           <span className="text-blue-700">
@@ -31,7 +31,7 @@ export default function DebtItem({ data = {} }) {
           </span>
         </p>
 
-        <BsArrowRight className="text-gray-800 text-3xl mx-2" />
+        <BsArrowRight className="text-gray-800 text-3xl mr-2" />
       </div>
     </button>
   );
