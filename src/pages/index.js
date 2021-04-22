@@ -133,7 +133,7 @@ function Home(props) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const users = await fetcher("/users");
   console.log(users);
 
