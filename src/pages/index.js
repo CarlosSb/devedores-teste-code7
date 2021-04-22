@@ -63,7 +63,7 @@ function Home(props) {
             </p>
           </div>
 
-          <div className="flex gap-2 my-2 ">
+          <div className="flex gap-2 mt-0 mb-2 ">
             <div className="w-full md:w-1/3 md:h-100 pb-10">
               <h2 className="text-sm text-gray-500 my-3">CLIENTES</h2>
 
