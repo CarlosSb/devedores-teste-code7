@@ -50,7 +50,7 @@ function Home(props) {
   }
 
   if (error) return <div>falha no carregamento</div>;
-  if (!data) return <div>aguarde...</div>;
+  // if (!data) return <div>aguarde...</div>;
 
   return (
     <>
