@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 import Head from "next/head";
 import { MdArrowBack } from "react-icons/md";
 import { FiInfo } from "react-icons/fi";
@@ -23,19 +24,33 @@ function Home(props) {
     setIsOpenModal,
     selectUser,
   } = useDebt();
+
+  //usando o swr na requisição
+  const { data, error } = useSWR(`/users`, fetcher, {
+    initialData: props.users,
+  });
+
   const [buscar, setBuscar] = useState("");
   const [users, setUsers] = useState(props.users);
+
   //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
   useEffect(() => {
-    const resultUser = props.users?.filter(
+    // se data for igual a array atribui data de nao []
+    const usersData = Array.isArray(data) ? data : [];
+
+    //filtra do array de usuarios de acordo com o valor digitado no campo buscar
+    const resultUser = usersData.filter(
       (us) => us.name.toLowerCase().indexOf(buscar.toLowerCase()) > -1
     );
     setUsers(resultUser);
-  }, [buscar]);
+  }, [buscar, data]);
 
   function isEmpty(obj) {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
+
+  if (error) return <div>falha no carregamento</div>;
+  if (!data) return <div>aguarde...</div>;
 
   return (
     <>
@@ -134,7 +149,7 @@ function Home(props) {
 }
 
 export async function getStaticProps() {
-  const users = await fetcher("/users");
+  const users = await fetcher(`/users`);
   console.log(users);
 
   return {

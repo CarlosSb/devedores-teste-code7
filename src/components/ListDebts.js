@@ -22,6 +22,7 @@ export default function ListDebts() {
   // realiza um get das dividas existentes
   const fetcher = (url) => apiDebt.get(url).then((res) => res.data.result);
 
+  //usando o swr na requisição
   const { data, error } = useSWR(
     `divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`,
     fetcher,
