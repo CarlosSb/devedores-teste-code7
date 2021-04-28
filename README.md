@@ -39,7 +39,7 @@ O projeto utilizou APIs externas.
 > >
 
 <h4 align="center">
-    Feito por <a href="https://www.linkedin.com/in/antonio-carlos-martins-1316a9128/" style="color: #00a0df" target="_blank">Antônio Carlos Martins</a>
+    Feito por <a href="https://www.linkedin.com/in/antonio-carlos-martins-1316a9128/" style="color: #00a0df" target="_blank">Antônio Carlos Martins Gomes</a>
 </h4>
 
 ## Getting Started
