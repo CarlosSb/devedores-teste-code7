@@ -61,7 +61,7 @@ Execute o servidor de desenvolvimento:
     # ou
     yarn install
     # em seguida
-    edite .env.local com os valores dequados
+    edite .env.local com os valores adequados
     #executando servidor dev
     npm run dev
     # ou
