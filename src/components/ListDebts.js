@@ -24,7 +24,7 @@ export default function ListDebts() {
 
   //usando o swr na requisição
   const { data, error } = useSWR(
-    `divida/?uuid=${process.env.UUID}`,
+    `divida/?uuid=${process.env.NEXT_PUBLIC_UUID}`,
     fetcher,
     {
       refreshInterval: 1000,

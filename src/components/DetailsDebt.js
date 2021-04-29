@@ -19,7 +19,7 @@ export default function DetailsDebt() {
   async function deleteDebt(id) {
     setLoading(true);
     await apiDebt
-      .delete(`divida/${id}?uuid=${process.env.UUID}`)
+      .delete(`divida/${id}?uuid=${process.env.NEXT_PUBLIC_UUID}`)
       .then((response) => {
         console.log(response.data);
         handleToggleDetailsDebt();
