@@ -45,7 +45,7 @@ function Modal({ users = [] }) {
   async function insertDebt(resp) {
     setLoading(true);
     await apiDebt
-      .post("/divida/?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32", resp)
+      .post(`/divida/?uuid=${process.env.UUID}`, resp)
       .then((response) => {
         setIsOpenModal(false);
         handleToggleDetailsDebt({});
@@ -60,7 +60,7 @@ function Modal({ users = [] }) {
   async function updateDebt(data, id) {
     setLoading(true);
     await apiDebt
-      .put(`/divida/${id}?uuid=a8fcf925-ca07-44ba-9745-3c1a2ba48c32`, data)
+      .put(`/divida/${id}?uuid=${process.env.UUID}`, data)
       .then(() => {
         setIsOpenModal(false);
         setSelectDebt({

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiDebt = axios.create({
-  baseURL: "https://provadev.xlab.digital/api/v1/",
+  baseURL: process.env.BASE_URL_DIVIDA,
 });
 
 export default apiDebt;

@@ -25,7 +25,7 @@ function Home(props) {
     selectUser,
   } = useDebt();
 
-  //usando o swr na requisição
+
   const { data, error } = useSWR(`/users`, fetcher, {
     initialData: props.users,
   });
@@ -33,16 +33,15 @@ function Home(props) {
   const [buscar, setBuscar] = useState("");
   const [users, setUsers] = useState(props.users);
 
-  //filtra dos dados de acordo com o id do usuario e adiciona e novo estado
+
   useEffect(() => {
     // se data for igual a array atribui data de nao []
     const usersData = Array.isArray(data) ? data : [];
 
-    //filtra do array de usuarios de acordo com o valor digitado no campo buscar
-    const resultUser = usersData.filter(
+    const resultUserFilter = usersData.filter(
       (us) => us.name.toLowerCase().indexOf(buscar.toLowerCase()) > -1
     );
-    setUsers(resultUser);
+    setUsers(resultUserFilter);
   }, [buscar, data]);
 
   function isEmpty(obj) {
@@ -50,7 +49,6 @@ function Home(props) {
   }
 
   if (error) return <div>falha no carregamento</div>;
-  // if (!data) return <div>aguarde...</div>;
 
   return (
     <>
@@ -150,7 +148,6 @@ function Home(props) {
 
 export async function getStaticProps() {
   const users = await fetcher(`/users`);
-  console.log(users);
 
   return {
     props: {
