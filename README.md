@@ -55,13 +55,16 @@ Clonando repositório:
 Execute o servidor de desenvolvimento:
 
 ```bash
+    #instalando dependências
     cd devedores-teste-code7
     npm  install
-    # or
+    # ou
     yarn install
     # em seguida
+    edite .env.local com os valores dequados
+    #executando servidor dev
     npm run dev
-    # or
+    # ou
     yarn dev
 ```
 
