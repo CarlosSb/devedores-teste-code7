@@ -32,7 +32,7 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 O projeto utilizou APIs externas.
 
 - [JSONPlaceholder](https://jsonplaceholder.typicode.com/users)
-- [API de Dividas (é necessario um UUID válido disponibildado pela Convert)](https://provadev.xlab.digital/api/v1/divida?uuid=[uuid_valido])
+- [API de Dividas (é necessario um UUID válido disponibilizado pela Convert)](https://provadev.xlab.digital/api/v1/divida?uuid=[uuid_valido])
 
 >
 
